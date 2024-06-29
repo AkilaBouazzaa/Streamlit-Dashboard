@@ -114,6 +114,7 @@ def load_fraud_data(filter_type, month, trimester, start_date, end_date):
         rows = cursor.fetchall()
         colnames = [desc[0] for desc in cursor.description]
         fraud_data = pd.DataFrame(rows, columns=colnames)
+        
         if fraud_data.empty:
             print("Data loaded but DataFrame is empty")
         else:

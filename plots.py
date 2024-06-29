@@ -1,168 +1,3 @@
-# import streamlit as st
-# import pandas as pd
-# import numpy as np
-# import plotly.express as px
-# import plotly.graph_objects as go
-
-# def display_tab1(fraud_data):
-#     if fraud_data is None or fraud_data.empty:
-#         st.error("No data available for plotting.")
-#         return
-
-#     tab1_col1, tab1_col2 = st.columns(2)
-#     with tab1_col1:
-#         # st.markdown('<div class="box">', unsafe_allow_html=True)
-#         # st.write('**Weekly Fraudulent Claims**')
-#         if 'week' in fraud_data.columns:
-#             weekly_fraud_cases = fraud_data.groupby('week')['fraud_cases'].sum().reset_index()
-#             fig = px.line(weekly_fraud_cases, x='week', y='fraud_cases', title='Weekly Fraudulent Claims')
-#             st.plotly_chart(fig)
-#         elif 'month' in fraud_data.columns:
-#             monthly_fraud_cases = fraud_data.groupby('month')['fraud_cases'].sum().reset_index()
-#             fig = px.line(monthly_fraud_cases, x='month', y='fraud_cases', title='Monthly Fraudulent Claims')
-#             st.plotly_chart(fig)
-#         elif 'trimester' in fraud_data.columns:
-#             trimester_fraud_cases = fraud_data.groupby('trimester')['fraud_cases'].sum().reset_index()
-#             fig = px.line(trimester_fraud_cases, x='trimester', y='fraud_cases', title='Trimester Fraudulent Claims')
-#             st.plotly_chart(fig)
-#         # st.markdown('</div>', unsafe_allow_html=True)
-
-#         # st.markdown('<div class="box">', unsafe_allow_html=True)
-#         st.write('**Prejudice of Fraudulent Claims**')
-#         if 'week' in fraud_data.columns:
-#             weekly_total_cost = fraud_data.groupby('week')['total_cost'].sum().reset_index()
-#             fig = px.line(weekly_total_cost, x='week', y='total_cost', labels={'total_cost': 'Prejudice in DZD'})
-#             st.plotly_chart(fig)
-#         elif 'month' in fraud_data.columns:
-#             monthly_total_cost = fraud_data.groupby('month')['total_cost'].sum().reset_index()
-#             fig = px.line(monthly_total_cost, x='month', y='total_cost', labels={'total_cost': 'Prejudice in DZD'})
-#             st.plotly_chart(fig)
-#         elif 'trimester' in fraud_data.columns:
-#             trimester_total_cost = fraud_data.groupby('trimester')['total_cost'].sum().reset_index()
-#             fig = px.line(trimester_total_cost, x='trimester', y='total_cost',  labels={'total_cost': 'Prejudice in DZD'})
-#             st.plotly_chart(fig)
-#         # st.markdown('</div>', unsafe_allow_html=True)
-#         # st.markdown('<div class="box">', unsafe_allow_html=True)
-#         st.write('**Representation of Top 10 Medications Most Susceptible to Fraud**')
-#         top_10_num_enr_count = fraud_data[fraud_data['fraud_cases'] > 0]['NUM_ENR'].value_counts().head(10)
-#         fig = px.pie(values=top_10_num_enr_count.values, names=top_10_num_enr_count.index)
-#         st.plotly_chart(fig)
-#         # st.markdown('</div>', unsafe_allow_html=True)
-#         # join with medicaments data on num_enr
-
-        
-
-#     with tab1_col2:
-#         # st.markdown('<div class="box">', unsafe_allow_html=True)
-#         st.write('**Count of Fraudulent Claims per Gender**')
-#         gender_counts={
-#             'Gender':['Female', 'Male'],
-#             'Count':[
-#                 fraud_data['female_fraud_cases'].sum(),
-#                 fraud_data['male_fraud_cases'].sum()
-#                 ]
-#         }
-#         gender_df = pd.DataFrame(gender_counts)
-#         fig=px.bar(gender_df,x='Gender',y='Count',color='Count', labels={'Gender': ' Gender', 'Count': 'Count of fradulent claims'})
-#         st.plotly_chart(fig)
-#         # st.markdown('</div>', unsafe_allow_html=True)
-        
-#         # st.markdown('<div class="box">', unsafe_allow_html=True)
-#         st.write('**Count of Fraudulent Claims per TS**')
-#         fraud_label_count_ts = fraud_data[fraud_data['fraud_cases'] > 0].groupby(['TS_O', 'TS_N']).size().reset_index(name='count')
-#         fig = px.bar(fraud_label_count_ts, x='TS_O', y='count', color='TS_N', labels={'TS_O': 'TS'})
-#         st.plotly_chart(fig)
-#         # st.markdown('</div>', unsafe_allow_html=True)
-
-#         # st.markdown('<div class="box">', unsafe_allow_html=True)
-#         st.write('**Count of Fraudulent Claims per Age Group**')
-#         fraud_label_count_age = fraud_data[fraud_data['fraud_cases'] > 0].groupby('TRANCHE_AGE_BENEF').size().reset_index(name='count')
-#         fig = px.bar(fraud_label_count_age, x='TRANCHE_AGE_BENEF', y='count', color='count')
-#         st.plotly_chart(fig)
-#         # st.markdown('</div>', unsafe_allow_html=True)
-
-        
-
-# def display_tab2(fraud_data):
-#     if fraud_data is None or fraud_data.empty:
-#         st.error("No data available for plotting.")
-#         return
-
-#     tab2_col1, tab2_col2 = st.columns(2)
-#     with tab2_col1:
-    
-#         # st.markdown('<div class="box">', unsafe_allow_html=True)
-#         st.write('**List of Top 10 Medications Most Susceptible to Fraud**')
-#         top_10_num_enr = fraud_data[fraud_data['fraud_cases'] == 1]['NOM_DCI'].value_counts().head(10).index.tolist()
-#         top_10_num_enr_df = pd.DataFrame({'NOM_DCI': top_10_num_enr})
-#         st.dataframe(top_10_num_enr_df)
-#         # st.markdown('</div>', unsafe_allow_html=True)
-# # def display_tab2(fraud_data, medicaments_data):
-# #     if fraud_data is None or fraud_data.empty:
-# #         st.error("No data available for plotting.")
-# #         return
-
-# #     # Ensure the column names are uppercased for consistency
-# #     fraud_data.columns = fraud_data.columns.str.upper()
-# #     medicaments_data.columns = medicaments_data.columns.str.upper()
-
-# #     # Print the column names to check if they exist and are correct
-# #     st.write("Fraud Data Columns: ", fraud_data.columns)
-# #     st.write("Medicaments Data Columns: ", medicaments_data.columns)
-
-# #     # Join fraud_data with medicaments_data on NUM_ENR
-# #     fraud_data = fraud_data.merge(medicaments_data, how='left', on='NUM_ENREG')
-
-# #     tab2_col1, tab2_col2 = st.columns(2)
-# #     with tab2_col1:
-# #         st.markdown('<div class="box">', unsafe_allow_html=True)
-# #         st.write('**Representation of Top 10 Medications Most Susceptible to Fraud**')
-# #         top_10_num_enr_count = fraud_data[fraud_data['FRAUD_CASES'] > 0]['NUM_ENR'].value_counts().head(10)
-# #         top_10_num_enr_labels = fraud_data[fraud_data['NUM_ENR'].isin(top_10_num_enr_count.index)]['NOM_DCI'].unique()
-# #         fig = px.pie(values=top_10_num_enr_count.values, names=top_10_num_enr_labels, title='Top 10 Medications Most Susceptible to Fraud')
-# #         st.plotly_chart(fig)
-# #         st.markdown('</div>', unsafe_allow_html=True)
-
-# #         st.markdown('<div class="box">', unsafe_allow_html=True)
-# #         st.write('**List of Top 10 Medications Most Susceptible to Fraud**')
-# #         top_10_num_enr = fraud_data[fraud_data['FRAUD_CASES'] > 0]['NUM_ENR'].value_counts().head(10).index.tolist()
-# #         top_10_num_enr_df = pd.DataFrame({'NUM_ENR': top_10_num_enr})
-# #         top_10_num_enr_df = top_10_num_enr_df.merge(medicaments_data, how='left', on='NUM_ENR')[['NUM_ENR', 'NOM_DCI']]
-# #         st.dataframe(top_10_num_enr_df)
-# #         st.markdown('</div>', unsafe_allow_html=True)
-#     with tab2_col2:
-#         # st.markdown('<div class="box">', unsafe_allow_html=True)
-#         st.write('**List of Top 10 Most Frequent Pharmacies Susceptible to Fraud**')
-#         top_10_code_ps = fraud_data[fraud_data['fraud_cases'] > 0]['CODEPS'].value_counts().head(10).index.tolist()
-#         top_10_code_ps_df = pd.DataFrame({'CODEPS': top_10_code_ps})
-#         st.dataframe(top_10_code_ps_df)
-#         # st.markdown('</div>', unsafe_allow_html=True)
-        
-#         # st.markdown('<div class="box">', unsafe_allow_html=True)
-#         st.write('**Recent Fraudulent Claims**')
-#         def apply_color(val):
-#             if val == 'fraud':
-#                 color = 'red'
-#             elif val == 'not fraud':
-#                 color = 'green'
-#             else:
-#                 color = 'yellow'
-#             return f'color: {color}'
-
-#         fraud_data['predictions'] = np.where(fraud_data['fraud_cases'] > 0, 'fraud', 'not fraud')
-#         styled_data = fraud_data[['ID', 'NUM_ENR', 'NO_DOSSIER_NAT', 'DATE_PAIEMENT', 'QUANTITE_MED', 'CODEPS', 'total_cost', 'predictions']].tail(50).style.applymap(apply_color, subset=['predictions'])
-#         st.dataframe(styled_data)
-#         # st.markdown('</div>', unsafe_allow_html=True)
-
-# # Example usage of the function
-# if __name__ == "__main__":
-#     # Replace with actual data loading
-#     fraud_data = pd.DataFrame()  # Placeholder for the actual fraud data
-#     tab1, tab2 = st.tabs(["Tab 1", "Tab 2"])
-#     with tab1:
-#         display_tab1(fraud_data)
-#     with tab2:
-#         display_tab2(fraud_data)
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -223,12 +58,24 @@ def plots_css():
     )
 
 
-
+def format_codeps(codeps):
+    # Ensure codeps is treated as a string
+    codeps_str = str(codeps)
+    # Remove commas and add the space after the first two digits
+    clean_codeps = codeps_str.replace(',', '')
+    return f"{clean_codeps[:2]} {clean_codeps[2:]}"
+def format_num_enr(num_enr):
+    # Ensure num_enr is treated as a string and remove commas
+    return str(num_enr).replace(',', '')
 def display_tab1(fraud_data):
     if fraud_data is None or fraud_data.empty:
         st.error("No data available for plotting.")
         return
-
+        # Format the CODEPS column
+    if 'CODEPS' in fraud_data.columns:
+        fraud_data['CODEPS'] = fraud_data['CODEPS'].apply(format_codeps)
+    if 'NUM_ENR' in fraud_data.columns:
+        fraud_data['NUM_ENR'] = fraud_data['NUM_ENR'].apply(format_num_enr)
     tab1_col1, tab1_col2 = st.columns(2)
     with tab1_col1:
         # st.markdown('<div class="box">', unsafe_allow_html=True)
@@ -247,12 +94,41 @@ def display_tab1(fraud_data):
             st.plotly_chart(fig)
         # st.markdown('</div>', unsafe_allow_html=True)
 
-        # st.markdown('<div class="box">', unsafe_allow_html=True)
+        
         # st.write('**Count of Fraudulent Claims per Age Group**')
+        # fraud_label_count_age = fraud_data[fraud_data['fraud_cases'] > 0].groupby('TRANCHE_AGE_BENEF').size().reset_index(name='count')
+        # fig = px.bar(fraud_label_count_age, x='TRANCHE_AGE_BENEF', y='count', title='Count of Fraudulent Claims per Age Group', color='count')
+        # st.plotly_chart(fig)
+
+        age_group_labels = {
+            1: '<15',
+            2: '16-24',
+            3: '25-34',
+            4: '35-44',
+            5: '45-54',
+            6: '55-64',
+            7: '65-74',
+            8: '65 +',
+            9: '75-84',
+            10: '>=85',
+            11: '00' 
+            
+        }
+
         fraud_label_count_age = fraud_data[fraud_data['fraud_cases'] > 0].groupby('TRANCHE_AGE_BENEF').size().reset_index(name='count')
-        fig = px.bar(fraud_label_count_age, x='TRANCHE_AGE_BENEF', y='count', title='Count of Fraudulent Claims per Age Group', color='count')
+
+        
+        fraud_label_count_age['TRANCHE_AGE_BENEF_LABEL'] = fraud_label_count_age['TRANCHE_AGE_BENEF'].map(age_group_labels)
+
+        # Create the bar chart with custom text labels
+        fig = px.bar(fraud_label_count_age, x='TRANCHE_AGE_BENEF_LABEL', y='count', title='Count of Fraudulent Claims per Age Group', color='count',
+                    text='count')
+
+        # Update the layout to position the text labels
+        fig.update_traces(textposition='outside')
+
+        # Display the chart in Streamlit
         st.plotly_chart(fig)
-        # st.markdown('</div>', unsafe_allow_html=True)
 
                 # st.markdown('<div class="box">', unsafe_allow_html=True)
         st.write('**Prejudice of Fraudulent Claims**')
@@ -290,8 +166,8 @@ def display_tab1(fraud_data):
         ts_counts = {
             'TS': ['TS_O', 'TS_N'],
             'Count': [
-                fraud_data[fraud_data['fraud_cases'] > 0]['TS_O'].sum(),
-                fraud_data[fraud_data['fraud_cases'] > 0]['TS_N'].sum()
+                fraud_data[fraud_data['fraud_cases'] == 1]['TS_N'].sum(),
+                fraud_data[fraud_data['fraud_cases'] == 1]['TS_O'].sum()
             ]
         }
         ts_df = pd.DataFrame(ts_counts)
@@ -330,29 +206,6 @@ def display_tab1(fraud_data):
             ),
             margin=dict(l=20, r=20, t=40, b=100)  # Increase bottom margin to fit the legend
         )
-
-
-# def display_tab2(fraud_data):
-#     if fraud_data is None or fraud_data.empty:
-#         st.error("No data available for plotting.")
-#         return
-
-#     tab2_col1, tab2_col2 = st.columns(2)
-#     with tab2_col1:
-#         st.markdown('<div class="box">', unsafe_allow_html=True)
-#         st.write('**Representation of Top 10 Medications Most Susceptible to Fraud**')
-#         top_10_num_enr_count = fraud_data[fraud_data['fraud_cases'] > 0]['NUM_ENR'].value_counts().head(10)
-#         fig = px.pie(values=top_10_num_enr_count.values, names=top_10_num_enr_count.index, title='Top 10 Medications Most Susceptible to Fraud')
-#         st.plotly_chart(fig)
-#         st.markdown('</div>', unsafe_allow_html=True)
-#         # join with medicaments data on num_enr
-
-
-#         st.markdown('<div class="box">', unsafe_allow_html=True)
-#         st.write('**List of Top 10 Medications Most Susceptible to Fraud**')
-#         top_10_num_enr = fraud_data[fraud_data['fraud_cases'] > 0]['NUM_ENR'].value_counts().head(10).index.tolist()
-#         top_10_num_enr_df = pd.DataFrame({'NUM_ENR': top_10_num_enr})
-#         st.dataframe(top_10_num_enr_df)
 
 def display_tab2(fraud_data):
     if fraud_data is None or fraud_data.empty:
@@ -440,7 +293,7 @@ def display_tab2(fraud_data):
         st.write('**Map of Top 10 Most Frequent Pharmacies Susceptible to Fraud**')
         display_pharmacies_map(top_10_code_ps)
 
-
+pd.set_option("styler.render.max_elements", 1_000_000)
 def display_tab3(fraud_data):
     if fraud_data is None or fraud_data.empty:
         st.error("No data available for the blacklist.")
@@ -458,7 +311,7 @@ def display_tab3(fraud_data):
     if blacklist_data.empty:
         st.warning("No suspicious or fraudulent cases found.")
         return
-
+    
     # Select only the necessary columns
     blacklist_columns = ['ID', 'NUM_ENR', 'NO_DOSSIER_NAT', 'DATE_PAIEMENT', 'TRANCHE_AGE_BENEF', 'C80', 'C17', 'QUANTITE_MED', 'total_cost', 'predictions']
     blacklist_data = blacklist_data[blacklist_columns]
@@ -481,7 +334,7 @@ def display_tab3(fraud_data):
         # st.markdown('</div>', unsafe_allow_html=True)
     st.markdown('<div class="download-button-container">', unsafe_allow_html=True)
     st.download_button(
-            label="Download data as CSV",
+            label="Download data as CSV", 
             data=filtered_data.to_csv(index=False).encode('utf-8'),
             file_name='blacklist_data.csv',
             mime='text/csv',
